@@ -1,0 +1,263 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36" version="29.3.6">
+  <diagram name="Page-1" id="lb37G_9MS7HqZaS5BKR0">
+    <mxGraphModel dx="3227" dy="1238" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-2" parent="1" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;Functional Requirements&lt;/h1&gt;&lt;p&gt;&lt;span style=&quot;text-align: center;&quot;&gt;1) Given a URL, our service should generate a shorter and unique alias of it. This is called a short link. This link should be short enough to be easily copied and pasted into applications.&amp;nbsp;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;text-align: center;&quot;&gt;2) When users access a short link, our service should redirect them to the original link.&amp;nbsp;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;text-align: center;&quot;&gt;3) Users should optionally be able to pick a custom short link for their URL.&amp;nbsp;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;text-align: center;&quot;&gt;4) Links will expire after a standard default timespan. Users should be able to specify the expiration time.&lt;/span&gt;&lt;/p&gt;" vertex="1">
+          <mxGeometry height="170" width="640" x="-80" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-3" parent="1" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;align=left;" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;Non-Functional Requirements&lt;/h1&gt;&lt;p style=&quot;&quot;&gt;1) The system should be highly available. This is required because, if our service is down, all the URL redirections will start failing.&amp;nbsp;&lt;/p&gt;&lt;p style=&quot;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;2) URL redirection should happen in real-time with minimal latency.&amp;nbsp;&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;3) Shortened links should not be guessable (not predictable).&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;4)&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: transparent;&quot;&gt;Analytics; e.g., how many times a redirection happened?&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;&quot;&gt;&lt;span style=&quot;background-color: transparent;&quot;&gt;5)&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: transparent;&quot;&gt;Our service should also be accessible through REST APIs by other services.&lt;/span&gt;&lt;/p&gt;" vertex="1">
+          <mxGeometry height="200" width="640" x="-80" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-4" parent="1" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;align=left;" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Back-Of-The-Envelope&lt;/span&gt;&lt;/h1&gt;&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;&lt;span style=&quot;font-size: 12px; font-weight: 400;&quot;&gt;* 500 million new urls per month&lt;/span&gt;&lt;/h1&gt;&lt;div&gt;* 100/1 = read/write ratio&lt;/div&gt;&lt;div&gt;* urls must be kept for 5 years&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;1) 500 * 10^6 / (30 * 24 * 3600) =~ 193 urls/sec&lt;/div&gt;&lt;div&gt;2) since read/write ratio is 100/1, we can say: 193 * 100 =~ 19.3K redirects/sec&lt;/div&gt;&lt;div&gt;3) Assuming each url info is 500 bytes, then: 500 * 10^6 * 12 * 5 * 500 =~&amp;nbsp; 15 TB of data&lt;/div&gt;&lt;div&gt;4) Write requests network bandwidth: 193 * 500 =~ 97 KB/sec&lt;/div&gt;&lt;div&gt;5) Read&amp;nbsp;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;requests&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;network&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;bandwidth: 19300 * 500 ~ 9700 KB/sec =~ 9.7 MB/sec&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;6) Cache size, 19300 requests * 3600 secs * 24 hours =~ 1.7 billion requests daily&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;if we follow 20/80 rule: 0.2 * 1.7 billion * 500 bytes =~ 170 GB, so we need 170 GB to cache hot urls, but in fact this &lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;figure should be less, because it takes into account duplicated urls&lt;br&gt;&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="260" width="640" x="-80" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-5" parent="1" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;align=left;" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;System Design Interface&lt;/span&gt;&lt;/h1&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;1) POST /users/register : used to register new user&lt;/div&gt;&lt;div&gt;2) POST /users/login : used to get access token for further requets&lt;/div&gt;&lt;div&gt;3) POST /urls/shorten : used to create shortened url in DB&lt;/div&gt;&lt;div&gt;4) GET /urls/redirect : used to redirect to original url&lt;/div&gt;&lt;div&gt;5) GET /urls/analytics/{shortened_url} : used to get analytics for given shortened url, like the number of total redirects, etc&lt;/div&gt;&lt;div&gt;6) DELETE /urls/{shortened_url} : used to delete shortened url from DB, secured by access token&lt;/div&gt;&lt;div&gt;7) GET /urls/{user_id}/urls : used to get the list of urls by user id, secured by access token&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="190" width="640" x="-80" y="760" as="geometry" />
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-6" parent="1" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;" value="&lt;h1 style=&quot;text-align: left; margin-top: 0px;&quot;&gt;&lt;span style=&quot;text-align: center; background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Database Design&lt;/span&gt;&lt;/h1&gt;&lt;h1 style=&quot;text-align: left; margin-top: 0px;&quot;&gt;&lt;br&gt;&lt;/h1&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Since we do not need relation and strong consistency in our data, we can use NoSQL databases, it also allows us to scale easily, in this example we go with DynamoDB&lt;/div&gt;" vertex="1">
+          <mxGeometry height="350" width="780" x="620" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-7" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;whiteSpace=wrap;" value="users" vertex="1">
+          <mxGeometry height="150" width="180" x="640" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-8" parent="HQQ4V66wD_OCbyy4vYDD-7" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;html=1;" value="" vertex="1">
+          <mxGeometry height="30" width="180" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-9" parent="HQQ4V66wD_OCbyy4vYDD-8" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;fontStyle=1;overflow=hidden;html=1;whiteSpace=wrap;" value="PK" vertex="1">
+          <mxGeometry height="30" width="60" as="geometry">
+            <mxRectangle height="30" width="60" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-10" parent="HQQ4V66wD_OCbyy4vYDD-8" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;fontStyle=5;overflow=hidden;html=1;whiteSpace=wrap;" value="id" vertex="1">
+          <mxGeometry height="30" width="120" x="60" as="geometry">
+            <mxRectangle height="30" width="120" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-14" parent="HQQ4V66wD_OCbyy4vYDD-7" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;html=1;" value="" vertex="1">
+          <mxGeometry height="30" width="180" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-15" parent="HQQ4V66wD_OCbyy4vYDD-14" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;editable=1;overflow=hidden;html=1;whiteSpace=wrap;" value="" vertex="1">
+          <mxGeometry height="30" width="60" as="geometry">
+            <mxRectangle height="30" width="60" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-16" parent="HQQ4V66wD_OCbyy4vYDD-14" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;overflow=hidden;html=1;whiteSpace=wrap;" value="email" vertex="1">
+          <mxGeometry height="30" width="120" x="60" as="geometry">
+            <mxRectangle height="30" width="120" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-17" parent="HQQ4V66wD_OCbyy4vYDD-7" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;html=1;" value="" vertex="1">
+          <mxGeometry height="30" width="180" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-18" parent="HQQ4V66wD_OCbyy4vYDD-17" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;editable=1;overflow=hidden;html=1;whiteSpace=wrap;" value="" vertex="1">
+          <mxGeometry height="30" width="60" as="geometry">
+            <mxRectangle height="30" width="60" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-19" parent="HQQ4V66wD_OCbyy4vYDD-17" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;overflow=hidden;html=1;whiteSpace=wrap;" value="password" vertex="1">
+          <mxGeometry height="30" width="120" x="60" as="geometry">
+            <mxRectangle height="30" width="120" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-20" parent="HQQ4V66wD_OCbyy4vYDD-7" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;html=1;" value="" vertex="1">
+          <mxGeometry height="30" width="180" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-21" parent="HQQ4V66wD_OCbyy4vYDD-20" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;editable=1;overflow=hidden;html=1;whiteSpace=wrap;" value="" vertex="1">
+          <mxGeometry height="30" width="60" as="geometry">
+            <mxRectangle height="30" width="60" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-22" parent="HQQ4V66wD_OCbyy4vYDD-20" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;overflow=hidden;html=1;whiteSpace=wrap;" value="creation_date" vertex="1">
+          <mxGeometry height="30" width="120" x="60" as="geometry">
+            <mxRectangle height="30" width="120" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-26" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;whiteSpace=wrap;" value="shortened_urls" vertex="1">
+          <mxGeometry height="210" width="180" x="940" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-27" parent="HQQ4V66wD_OCbyy4vYDD-26" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;html=1;" value="" vertex="1">
+          <mxGeometry height="30" width="180" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-28" parent="HQQ4V66wD_OCbyy4vYDD-27" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;fontStyle=1;overflow=hidden;html=1;whiteSpace=wrap;" value="PK" vertex="1">
+          <mxGeometry height="30" width="60" as="geometry">
+            <mxRectangle height="30" width="60" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-29" parent="HQQ4V66wD_OCbyy4vYDD-27" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;fontStyle=5;overflow=hidden;html=1;whiteSpace=wrap;" value="id" vertex="1">
+          <mxGeometry height="30" width="120" x="60" as="geometry">
+            <mxRectangle height="30" width="120" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-30" parent="HQQ4V66wD_OCbyy4vYDD-26" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;html=1;" value="" vertex="1">
+          <mxGeometry height="30" width="180" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-31" parent="HQQ4V66wD_OCbyy4vYDD-30" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;editable=1;overflow=hidden;html=1;whiteSpace=wrap;" value="" vertex="1">
+          <mxGeometry height="30" width="60" as="geometry">
+            <mxRectangle height="30" width="60" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-32" parent="HQQ4V66wD_OCbyy4vYDD-30" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;overflow=hidden;html=1;whiteSpace=wrap;" value="user_id" vertex="1">
+          <mxGeometry height="30" width="120" x="60" as="geometry">
+            <mxRectangle height="30" width="120" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-33" parent="HQQ4V66wD_OCbyy4vYDD-26" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;html=1;" value="" vertex="1">
+          <mxGeometry height="30" width="180" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-34" parent="HQQ4V66wD_OCbyy4vYDD-33" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;editable=1;overflow=hidden;html=1;whiteSpace=wrap;" value="" vertex="1">
+          <mxGeometry height="30" width="60" as="geometry">
+            <mxRectangle height="30" width="60" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-35" parent="HQQ4V66wD_OCbyy4vYDD-33" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;overflow=hidden;html=1;whiteSpace=wrap;" value="original_url" vertex="1">
+          <mxGeometry height="30" width="120" x="60" as="geometry">
+            <mxRectangle height="30" width="120" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-36" parent="HQQ4V66wD_OCbyy4vYDD-26" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;html=1;" value="" vertex="1">
+          <mxGeometry height="30" width="180" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-37" parent="HQQ4V66wD_OCbyy4vYDD-36" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;editable=1;overflow=hidden;html=1;whiteSpace=wrap;" value="" vertex="1">
+          <mxGeometry height="30" width="60" as="geometry">
+            <mxRectangle height="30" width="60" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-38" parent="HQQ4V66wD_OCbyy4vYDD-36" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;overflow=hidden;html=1;whiteSpace=wrap;" value="shortened_url" vertex="1">
+          <mxGeometry height="30" width="120" x="60" as="geometry">
+            <mxRectangle height="30" width="120" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-39" parent="HQQ4V66wD_OCbyy4vYDD-26" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;html=1;" value="" vertex="1">
+          <mxGeometry height="30" width="180" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-40" parent="HQQ4V66wD_OCbyy4vYDD-39" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;editable=1;overflow=hidden;html=1;whiteSpace=wrap;" value="" vertex="1">
+          <mxGeometry height="30" width="60" as="geometry">
+            <mxRectangle height="30" width="60" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-41" parent="HQQ4V66wD_OCbyy4vYDD-39" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;overflow=hidden;html=1;whiteSpace=wrap;" value="expire_date" vertex="1">
+          <mxGeometry height="30" width="120" x="60" as="geometry">
+            <mxRectangle height="30" width="120" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-42" parent="HQQ4V66wD_OCbyy4vYDD-26" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;html=1;" value="" vertex="1">
+          <mxGeometry height="30" width="180" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-43" parent="HQQ4V66wD_OCbyy4vYDD-42" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;editable=1;overflow=hidden;html=1;whiteSpace=wrap;" value="" vertex="1">
+          <mxGeometry height="30" width="60" as="geometry">
+            <mxRectangle height="30" width="60" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-44" parent="HQQ4V66wD_OCbyy4vYDD-42" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;overflow=hidden;html=1;whiteSpace=wrap;" value="creation_date" vertex="1">
+          <mxGeometry height="30" width="120" x="60" as="geometry">
+            <mxRectangle height="30" width="120" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-48" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;whiteSpace=wrap;" value="url_analytics" vertex="1">
+          <mxGeometry height="150" width="180" x="1200" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-49" parent="HQQ4V66wD_OCbyy4vYDD-48" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;html=1;" value="" vertex="1">
+          <mxGeometry height="30" width="180" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-50" parent="HQQ4V66wD_OCbyy4vYDD-49" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;fontStyle=1;overflow=hidden;html=1;whiteSpace=wrap;" value="PK" vertex="1">
+          <mxGeometry height="30" width="60" as="geometry">
+            <mxRectangle height="30" width="60" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-51" parent="HQQ4V66wD_OCbyy4vYDD-49" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;fontStyle=5;overflow=hidden;html=1;whiteSpace=wrap;" value="id" vertex="1">
+          <mxGeometry height="30" width="120" x="60" as="geometry">
+            <mxRectangle height="30" width="120" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-52" parent="HQQ4V66wD_OCbyy4vYDD-48" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;html=1;" value="" vertex="1">
+          <mxGeometry height="30" width="180" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-53" parent="HQQ4V66wD_OCbyy4vYDD-52" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;editable=1;overflow=hidden;html=1;whiteSpace=wrap;" value="" vertex="1">
+          <mxGeometry height="30" width="60" as="geometry">
+            <mxRectangle height="30" width="60" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-54" parent="HQQ4V66wD_OCbyy4vYDD-52" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;overflow=hidden;html=1;whiteSpace=wrap;" value="shortened_url_id" vertex="1">
+          <mxGeometry height="30" width="120" x="60" as="geometry">
+            <mxRectangle height="30" width="120" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-55" parent="HQQ4V66wD_OCbyy4vYDD-48" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;html=1;" value="" vertex="1">
+          <mxGeometry height="30" width="180" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-56" parent="HQQ4V66wD_OCbyy4vYDD-55" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;editable=1;overflow=hidden;html=1;whiteSpace=wrap;" value="" vertex="1">
+          <mxGeometry height="30" width="60" as="geometry">
+            <mxRectangle height="30" width="60" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-57" parent="HQQ4V66wD_OCbyy4vYDD-55" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;overflow=hidden;html=1;whiteSpace=wrap;" value="date_time_clicked" vertex="1">
+          <mxGeometry height="30" width="120" x="60" as="geometry">
+            <mxRectangle height="30" width="120" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-58" parent="HQQ4V66wD_OCbyy4vYDD-48" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;html=1;" value="" vertex="1">
+          <mxGeometry height="30" width="180" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-59" parent="HQQ4V66wD_OCbyy4vYDD-58" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;editable=1;overflow=hidden;html=1;whiteSpace=wrap;" value="" vertex="1">
+          <mxGeometry height="30" width="60" as="geometry">
+            <mxRectangle height="30" width="60" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-60" parent="HQQ4V66wD_OCbyy4vYDD-58" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;overflow=hidden;html=1;whiteSpace=wrap;" value="referring_site" vertex="1">
+          <mxGeometry height="30" width="120" x="60" as="geometry">
+            <mxRectangle height="30" width="120" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-67" edge="1" parent="1" source="HQQ4V66wD_OCbyy4vYDD-8" style="edgeStyle=entityRelationEdgeStyle;fontSize=12;html=1;endArrow=ERoneToMany;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="HQQ4V66wD_OCbyy4vYDD-30" value="">
+          <mxGeometry height="100" relative="1" width="100" as="geometry">
+            <mxPoint x="840" y="470" as="sourcePoint" />
+            <mxPoint x="940" y="370" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-68" edge="1" parent="1" source="HQQ4V66wD_OCbyy4vYDD-27" style="edgeStyle=entityRelationEdgeStyle;fontSize=12;html=1;endArrow=ERoneToMany;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="HQQ4V66wD_OCbyy4vYDD-52" value="">
+          <mxGeometry height="100" relative="1" width="100" as="geometry">
+            <mxPoint x="800" y="340" as="sourcePoint" />
+            <mxPoint x="920" y="370" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-69" parent="1" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;" value="&lt;h1 style=&quot;text-align: left; margin-top: 0px;&quot;&gt;Key Generation For Short Url&lt;/h1&gt;&lt;div&gt;All keys for shour urls will be pre-generated by key generation service (KGS).&lt;/div&gt;&lt;div&gt;Key length is 6 chars. Using base64 encoding system, I can get: 64^6 = 68,7 billion keys&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;I&#39;ll use PostgreSQL (no partitioning, with replication) database with very simple two tables:&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;After jey retrieved by other services, it will be moved to used_keys table.&lt;/div&gt;&lt;div&gt;I&#39;ll run 2 instances of this service for redundancy, in case one service goes down.&lt;/div&gt;&lt;div&gt;Also we cache 10K urls in redis, so clients can get key immediately. There can be a situation when we lose some keys if redis goes down. However it is okay in our case, since we have way more unique keys than we need. We do not need partitioning here, since 10K keys are not big amount of data.&amp;nbsp;&lt;/div&gt;&lt;div&gt;However we want to replicate our data for fault tolerance and read latency.&lt;/div&gt;" vertex="1">
+          <mxGeometry height="300" width="490" x="600" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-70" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;whiteSpace=wrap;" value="keys" vertex="1">
+          <mxGeometry height="60" width="180" x="620" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-71" parent="HQQ4V66wD_OCbyy4vYDD-70" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;html=1;" value="" vertex="1">
+          <mxGeometry height="30" width="180" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-72" parent="HQQ4V66wD_OCbyy4vYDD-71" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;fontStyle=1;overflow=hidden;html=1;whiteSpace=wrap;" value="PK" vertex="1">
+          <mxGeometry height="30" width="60" as="geometry">
+            <mxRectangle height="30" width="60" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-73" parent="HQQ4V66wD_OCbyy4vYDD-71" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;fontStyle=5;overflow=hidden;html=1;whiteSpace=wrap;" value="key" vertex="1">
+          <mxGeometry height="30" width="120" x="60" as="geometry">
+            <mxRectangle height="30" width="120" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-83" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;whiteSpace=wrap;" value="used_keys" vertex="1">
+          <mxGeometry height="60" width="180" x="840" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-84" parent="HQQ4V66wD_OCbyy4vYDD-83" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;html=1;" value="" vertex="1">
+          <mxGeometry height="30" width="180" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-85" parent="HQQ4V66wD_OCbyy4vYDD-84" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;fontStyle=1;overflow=hidden;html=1;whiteSpace=wrap;" value="PK" vertex="1">
+          <mxGeometry height="30" width="60" as="geometry">
+            <mxRectangle height="30" width="60" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-86" parent="HQQ4V66wD_OCbyy4vYDD-84" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;fontStyle=5;overflow=hidden;html=1;whiteSpace=wrap;" value="key" vertex="1">
+          <mxGeometry height="30" width="120" x="60" as="geometry">
+            <mxRectangle height="30" width="120" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
