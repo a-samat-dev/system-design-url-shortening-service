@@ -1,16 +1,13 @@
 spring:
   application:
     name: key-generation-service
-  autoconfigure:
-    exclude: org.springframework.boot.data.mongodb.autoconfigure.DataMongoAutoConfiguration
   data:
     mongodb:
-      uri: mongodb://admin:admin@localhost:27017,localhost:27018/key_generation_service
-        ?replicaSet=rs0
-        &authSource=admin
-  liquibase:
-    enabled: true
-    change-log: classpath:db/changelog/db.changelog-master.xml
-    url: mongodb://admin:admin@localhost:27017,localhost:27018/shortener
-      ?replicaSet=rs0
-      &authSource=admin
+      uri: mongodb://localhost:27017/key_generation_service
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+
+number-of-keys: ${NUMBER_OF_KEYS:100000}
+number-of-keys-in-batch: ${NUMBER_OF_KEYS_IN_BATCH:1000}
+number-of-keys-to-cache: ${NUMBER_OF_KEYS_TO_CACHE:10}

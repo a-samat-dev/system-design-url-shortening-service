@@ -9,15 +9,15 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
 
-@Document(collection = "keys")
+@Document(collection = "deleted_keys")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class KeyEntity {
+public class DeletedKeyEntity {
 
     @Id
     private String key;
 
-    private Instant createdAt;
+    private Instant deletedAt;
 }
