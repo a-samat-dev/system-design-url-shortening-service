@@ -1,0 +1,19 @@
+server:
+  port: 8081
+spring:
+  application:
+  name: url-shortening-service
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/key_generation_service
+      auto-index-creation: true
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+
+key-generation-service:
+  host: localhost
+  port: 8080
+url:
+  expire:
+    years: 2

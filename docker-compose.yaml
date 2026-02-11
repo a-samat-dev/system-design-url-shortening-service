@@ -1,30 +1,22 @@
 version: "3.9"
 
 services:
-  mongo1:
+  mongo:
     image: mongo:7.0
     container_name: key-generation-servce-mongo1
-    command: ["mongod", "--replSet", "rs0", "--bind_ip_all", "--auth"]
+    command: ["mongod"]
     ports:
       - "27017:27017"
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: admin
     volumes:
       - mongo1_data:/data/db
-
-  mongo2:
-    image: mongo:7.0
-    container_name: key-generation-servce-mongo2
-    command: ["mongod", "--replSet", "rs0", "--bind_ip_all", "--auth"]
+  redis:
+    image: redis:7.2
+    container_name: key-generation-service-redis
     ports:
-      - "27018:27017"
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: admin
+      - "6379:6379"
     volumes:
-      - mongo2_data:/data/db
+      - redis_data:/data
 
 volumes:
   mongo1_data:
-  mongo2_data:
+  redis_data:

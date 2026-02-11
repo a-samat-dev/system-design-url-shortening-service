@@ -1,9 +1,12 @@
-<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36" version="29.3.6">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36" version="29.3.8">
   <diagram name="Page-1" id="lb37G_9MS7HqZaS5BKR0">
-    <mxGraphModel dx="3227" dy="1238" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="2146" dy="675" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="8X1Fv_FRC-SwOijZUOr4-6" parent="1" style="sketch=0;outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontSize=12;fontStyle=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_vpc;strokeColor=#879196;fillColor=none;verticalAlign=top;align=left;spacingLeft=30;fontColor=#879196;dashed=0;" value="VPC" vertex="1">
+          <mxGeometry height="400" width="760" x="80" y="990" as="geometry" />
+        </mxCell>
         <mxCell id="HQQ4V66wD_OCbyy4vYDD-2" parent="1" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;Functional Requirements&lt;/h1&gt;&lt;p&gt;&lt;span style=&quot;text-align: center;&quot;&gt;1) Given a URL, our service should generate a shorter and unique alias of it. This is called a short link. This link should be short enough to be easily copied and pasted into applications.&amp;nbsp;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;text-align: center;&quot;&gt;2) When users access a short link, our service should redirect them to the original link.&amp;nbsp;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;text-align: center;&quot;&gt;3) Users should optionally be able to pick a custom short link for their URL.&amp;nbsp;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;text-align: center;&quot;&gt;4) Links will expire after a standard default timespan. Users should be able to specify the expiration time.&lt;/span&gt;&lt;/p&gt;" vertex="1">
           <mxGeometry height="170" width="640" x="-80" y="40" as="geometry" />
         </mxCell>
@@ -13,10 +16,10 @@
         <mxCell id="HQQ4V66wD_OCbyy4vYDD-4" parent="1" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;align=left;" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Back-Of-The-Envelope&lt;/span&gt;&lt;/h1&gt;&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;&lt;span style=&quot;font-size: 12px; font-weight: 400;&quot;&gt;* 500 million new urls per month&lt;/span&gt;&lt;/h1&gt;&lt;div&gt;* 100/1 = read/write ratio&lt;/div&gt;&lt;div&gt;* urls must be kept for 5 years&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;1) 500 * 10^6 / (30 * 24 * 3600) =~ 193 urls/sec&lt;/div&gt;&lt;div&gt;2) since read/write ratio is 100/1, we can say: 193 * 100 =~ 19.3K redirects/sec&lt;/div&gt;&lt;div&gt;3) Assuming each url info is 500 bytes, then: 500 * 10^6 * 12 * 5 * 500 =~&amp;nbsp; 15 TB of data&lt;/div&gt;&lt;div&gt;4) Write requests network bandwidth: 193 * 500 =~ 97 KB/sec&lt;/div&gt;&lt;div&gt;5) Read&amp;nbsp;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;requests&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;network&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;bandwidth: 19300 * 500 ~ 9700 KB/sec =~ 9.7 MB/sec&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;6) Cache size, 19300 requests * 3600 secs * 24 hours =~ 1.7 billion requests daily&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;if we follow 20/80 rule: 0.2 * 1.7 billion * 500 bytes =~ 170 GB, so we need 170 GB to cache hot urls, but in fact this &lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;figure should be less, because it takes into account duplicated urls&lt;br&gt;&lt;/span&gt;&lt;/div&gt;" vertex="1">
           <mxGeometry height="260" width="640" x="-80" y="480" as="geometry" />
         </mxCell>
-        <mxCell id="HQQ4V66wD_OCbyy4vYDD-5" parent="1" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;align=left;" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;System Design Interface&lt;/span&gt;&lt;/h1&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;1) POST /users/register : used to register new user&lt;/div&gt;&lt;div&gt;2) POST /users/login : used to get access token for further requets&lt;/div&gt;&lt;div&gt;3) POST /urls/shorten : used to create shortened url in DB&lt;/div&gt;&lt;div&gt;4) GET /urls/redirect : used to redirect to original url&lt;/div&gt;&lt;div&gt;5) GET /urls/analytics/{shortened_url} : used to get analytics for given shortened url, like the number of total redirects, etc&lt;/div&gt;&lt;div&gt;6) DELETE /urls/{shortened_url} : used to delete shortened url from DB, secured by access token&lt;/div&gt;&lt;div&gt;7) GET /urls/{user_id}/urls : used to get the list of urls by user id, secured by access token&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/div&gt;" vertex="1">
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-5" parent="1" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;align=left;" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;System Design Interface&lt;/span&gt;&lt;/h1&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;1) POST /users/register : used to register new user&lt;/div&gt;&lt;div&gt;2) POST /users/login : used to get access token for further requets&lt;/div&gt;&lt;div&gt;3) POST /urls: used to create shortened url in DB&lt;/div&gt;&lt;div&gt;4) GET /urls/redirect : used to redirect to original url&lt;/div&gt;&lt;div&gt;5) GET /urls/analytics/{shortened_url} : used to get analytics for given shortened url, like the number of total redirects, etc&lt;/div&gt;&lt;div&gt;6) DELETE /urls/{shortened_url} : used to delete shortened url from DB, secured by access token&lt;/div&gt;&lt;div&gt;7) GET /urls/{user_id}/urls : used to get the list of urls by user id, secured by access token&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/div&gt;" vertex="1">
           <mxGeometry height="190" width="640" x="-80" y="760" as="geometry" />
         </mxCell>
-        <mxCell id="HQQ4V66wD_OCbyy4vYDD-6" parent="1" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;" value="&lt;h1 style=&quot;text-align: left; margin-top: 0px;&quot;&gt;&lt;span style=&quot;text-align: center; background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Database Design&lt;/span&gt;&lt;/h1&gt;&lt;h1 style=&quot;text-align: left; margin-top: 0px;&quot;&gt;&lt;br&gt;&lt;/h1&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Since we do not need relation and strong consistency in our data, we can use NoSQL databases, it also allows us to scale easily, in this example we go with DynamoDB&lt;/div&gt;" vertex="1">
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-6" parent="1" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;" value="&lt;h1 style=&quot;text-align: left; margin-top: 0px;&quot;&gt;&lt;span style=&quot;text-align: center; background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Database Design&lt;/span&gt;&lt;/h1&gt;&lt;h1 style=&quot;text-align: left; margin-top: 0px;&quot;&gt;&lt;br&gt;&lt;/h1&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Since we do not need relation and strong consistency in our data, we can use NoSQL databases, it also allows us to scale easily, in this example we go with MongoDB&lt;/div&gt;" vertex="1">
           <mxGeometry height="350" width="780" x="620" y="80" as="geometry" />
         </mxCell>
         <mxCell id="HQQ4V66wD_OCbyy4vYDD-7" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;whiteSpace=wrap;" value="users" vertex="1">
@@ -69,12 +72,12 @@
             <mxRectangle height="30" width="60" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="HQQ4V66wD_OCbyy4vYDD-22" parent="HQQ4V66wD_OCbyy4vYDD-20" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;overflow=hidden;html=1;whiteSpace=wrap;" value="creation_date" vertex="1">
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-22" parent="HQQ4V66wD_OCbyy4vYDD-20" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;overflow=hidden;html=1;whiteSpace=wrap;" value="creationDate" vertex="1">
           <mxGeometry height="30" width="120" x="60" as="geometry">
             <mxRectangle height="30" width="120" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="HQQ4V66wD_OCbyy4vYDD-26" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;whiteSpace=wrap;" value="shortened_urls" vertex="1">
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-26" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;whiteSpace=wrap;" value="shortenedUrls" vertex="1">
           <mxGeometry height="210" width="180" x="940" y="160" as="geometry" />
         </mxCell>
         <mxCell id="HQQ4V66wD_OCbyy4vYDD-27" parent="HQQ4V66wD_OCbyy4vYDD-26" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;html=1;" value="" vertex="1">
@@ -98,7 +101,7 @@
             <mxRectangle height="30" width="60" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="HQQ4V66wD_OCbyy4vYDD-32" parent="HQQ4V66wD_OCbyy4vYDD-30" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;overflow=hidden;html=1;whiteSpace=wrap;" value="user_id" vertex="1">
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-32" parent="HQQ4V66wD_OCbyy4vYDD-30" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;overflow=hidden;html=1;whiteSpace=wrap;" value="userId" vertex="1">
           <mxGeometry height="30" width="120" x="60" as="geometry">
             <mxRectangle height="30" width="120" as="alternateBounds" />
           </mxGeometry>
@@ -111,7 +114,7 @@
             <mxRectangle height="30" width="60" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="HQQ4V66wD_OCbyy4vYDD-35" parent="HQQ4V66wD_OCbyy4vYDD-33" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;overflow=hidden;html=1;whiteSpace=wrap;" value="original_url" vertex="1">
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-35" parent="HQQ4V66wD_OCbyy4vYDD-33" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;overflow=hidden;html=1;whiteSpace=wrap;" value="originalUrl" vertex="1">
           <mxGeometry height="30" width="120" x="60" as="geometry">
             <mxRectangle height="30" width="120" as="alternateBounds" />
           </mxGeometry>
@@ -124,7 +127,7 @@
             <mxRectangle height="30" width="60" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="HQQ4V66wD_OCbyy4vYDD-38" parent="HQQ4V66wD_OCbyy4vYDD-36" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;overflow=hidden;html=1;whiteSpace=wrap;" value="shortened_url" vertex="1">
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-38" parent="HQQ4V66wD_OCbyy4vYDD-36" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;overflow=hidden;html=1;whiteSpace=wrap;" value="shortenedUrl" vertex="1">
           <mxGeometry height="30" width="120" x="60" as="geometry">
             <mxRectangle height="30" width="120" as="alternateBounds" />
           </mxGeometry>
@@ -137,7 +140,7 @@
             <mxRectangle height="30" width="60" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="HQQ4V66wD_OCbyy4vYDD-41" parent="HQQ4V66wD_OCbyy4vYDD-39" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;overflow=hidden;html=1;whiteSpace=wrap;" value="expire_date" vertex="1">
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-41" parent="HQQ4V66wD_OCbyy4vYDD-39" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;overflow=hidden;html=1;whiteSpace=wrap;" value="expireDate" vertex="1">
           <mxGeometry height="30" width="120" x="60" as="geometry">
             <mxRectangle height="30" width="120" as="alternateBounds" />
           </mxGeometry>
@@ -150,12 +153,12 @@
             <mxRectangle height="30" width="60" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="HQQ4V66wD_OCbyy4vYDD-44" parent="HQQ4V66wD_OCbyy4vYDD-42" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;overflow=hidden;html=1;whiteSpace=wrap;" value="creation_date" vertex="1">
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-44" parent="HQQ4V66wD_OCbyy4vYDD-42" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;overflow=hidden;html=1;whiteSpace=wrap;" value="creationDate" vertex="1">
           <mxGeometry height="30" width="120" x="60" as="geometry">
             <mxRectangle height="30" width="120" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="HQQ4V66wD_OCbyy4vYDD-48" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;whiteSpace=wrap;" value="url_analytics" vertex="1">
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-48" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;whiteSpace=wrap;" value="urlAnalytics" vertex="1">
           <mxGeometry height="150" width="180" x="1200" y="160" as="geometry" />
         </mxCell>
         <mxCell id="HQQ4V66wD_OCbyy4vYDD-49" parent="HQQ4V66wD_OCbyy4vYDD-48" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;html=1;" value="" vertex="1">
@@ -179,7 +182,7 @@
             <mxRectangle height="30" width="60" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="HQQ4V66wD_OCbyy4vYDD-54" parent="HQQ4V66wD_OCbyy4vYDD-52" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;overflow=hidden;html=1;whiteSpace=wrap;" value="shortened_url_id" vertex="1">
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-54" parent="HQQ4V66wD_OCbyy4vYDD-52" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;overflow=hidden;html=1;whiteSpace=wrap;" value="shortenedUrlId" vertex="1">
           <mxGeometry height="30" width="120" x="60" as="geometry">
             <mxRectangle height="30" width="120" as="alternateBounds" />
           </mxGeometry>
@@ -192,7 +195,7 @@
             <mxRectangle height="30" width="60" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="HQQ4V66wD_OCbyy4vYDD-57" parent="HQQ4V66wD_OCbyy4vYDD-55" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;overflow=hidden;html=1;whiteSpace=wrap;" value="date_time_clicked" vertex="1">
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-57" parent="HQQ4V66wD_OCbyy4vYDD-55" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;overflow=hidden;html=1;whiteSpace=wrap;" value="dateTimeClicked" vertex="1">
           <mxGeometry height="30" width="120" x="60" as="geometry">
             <mxRectangle height="30" width="120" as="alternateBounds" />
           </mxGeometry>
@@ -205,7 +208,7 @@
             <mxRectangle height="30" width="60" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="HQQ4V66wD_OCbyy4vYDD-60" parent="HQQ4V66wD_OCbyy4vYDD-58" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;overflow=hidden;html=1;whiteSpace=wrap;" value="referring_site" vertex="1">
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-60" parent="HQQ4V66wD_OCbyy4vYDD-58" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;overflow=hidden;html=1;whiteSpace=wrap;" value="referringSite" vertex="1">
           <mxGeometry height="30" width="120" x="60" as="geometry">
             <mxRectangle height="30" width="120" as="alternateBounds" />
           </mxGeometry>
@@ -222,11 +225,11 @@
             <mxPoint x="920" y="370" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="HQQ4V66wD_OCbyy4vYDD-69" parent="1" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;" value="&lt;h1 style=&quot;text-align: left; margin-top: 0px;&quot;&gt;Key Generation For Short Url&lt;/h1&gt;&lt;div&gt;All keys for shour urls will be pre-generated by key generation service (KGS).&lt;/div&gt;&lt;div&gt;Key length is 6 chars. Using base64 encoding system, I can get: 64^6 = 68,7 billion keys&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;I&#39;ll use PostgreSQL (no partitioning, with replication) database with very simple two tables:&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;After jey retrieved by other services, it will be moved to used_keys table.&lt;/div&gt;&lt;div&gt;I&#39;ll run 2 instances of this service for redundancy, in case one service goes down.&lt;/div&gt;&lt;div&gt;Also we cache 10K urls in redis, so clients can get key immediately. There can be a situation when we lose some keys if redis goes down. However it is okay in our case, since we have way more unique keys than we need. We do not need partitioning here, since 10K keys are not big amount of data.&amp;nbsp;&lt;/div&gt;&lt;div&gt;However we want to replicate our data for fault tolerance and read latency.&lt;/div&gt;" vertex="1">
-          <mxGeometry height="300" width="490" x="600" y="440" as="geometry" />
+        <mxCell id="HQQ4V66wD_OCbyy4vYDD-69" parent="1" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;" value="&lt;h1 style=&quot;text-align: left; margin-top: 0px;&quot;&gt;Key Generation For Short Url&lt;/h1&gt;&lt;div&gt;All keys for short urls will be pre-generated by key generation service (KGS).&lt;/div&gt;&lt;div&gt;Key length is 6 chars. Using base64 encoding system, I can get: 64^6 = 68,7 billion keys&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;After key retrieved, it will be moved to deletedKeys.&lt;/div&gt;&lt;div&gt;I&#39;ll run N number of instances of this service for redundancy, in case one service goes down, or if there is very high load.&lt;/div&gt;&lt;div&gt;Also we cache N number of urls in redis, so clients can get key immediately. There can be a situation when we lose some keys if redis goes down. However it is okay in our case, since we have way more unique keys than we need.&amp;nbsp;&lt;/div&gt;&lt;div&gt;However we want to replicate our data for fault tolerance and read latency.&lt;/div&gt;" vertex="1">
+          <mxGeometry height="310" width="780" x="600" y="440" as="geometry" />
         </mxCell>
         <mxCell id="HQQ4V66wD_OCbyy4vYDD-70" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;whiteSpace=wrap;" value="keys" vertex="1">
-          <mxGeometry height="60" width="180" x="620" y="560" as="geometry" />
+          <mxGeometry height="90" width="180" x="620" y="545" as="geometry" />
         </mxCell>
         <mxCell id="HQQ4V66wD_OCbyy4vYDD-71" parent="HQQ4V66wD_OCbyy4vYDD-70" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;html=1;" value="" vertex="1">
           <mxGeometry height="30" width="180" y="30" as="geometry" />
@@ -241,21 +244,117 @@
             <mxRectangle height="30" width="120" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="HQQ4V66wD_OCbyy4vYDD-83" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;whiteSpace=wrap;" value="used_keys" vertex="1">
-          <mxGeometry height="60" width="180" x="840" y="560" as="geometry" />
+        <mxCell id="8X1Fv_FRC-SwOijZUOr4-30" parent="HQQ4V66wD_OCbyy4vYDD-70" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;html=1;" value="" vertex="1">
+          <mxGeometry height="30" width="180" y="60" as="geometry" />
         </mxCell>
-        <mxCell id="HQQ4V66wD_OCbyy4vYDD-84" parent="HQQ4V66wD_OCbyy4vYDD-83" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;html=1;" value="" vertex="1">
-          <mxGeometry height="30" width="180" y="30" as="geometry" />
-        </mxCell>
-        <mxCell id="HQQ4V66wD_OCbyy4vYDD-85" parent="HQQ4V66wD_OCbyy4vYDD-84" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;fontStyle=1;overflow=hidden;html=1;whiteSpace=wrap;" value="PK" vertex="1">
+        <mxCell id="8X1Fv_FRC-SwOijZUOr4-31" parent="8X1Fv_FRC-SwOijZUOr4-30" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;fontStyle=1;overflow=hidden;html=1;whiteSpace=wrap;" value="" vertex="1">
           <mxGeometry height="30" width="60" as="geometry">
             <mxRectangle height="30" width="60" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="HQQ4V66wD_OCbyy4vYDD-86" parent="HQQ4V66wD_OCbyy4vYDD-84" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;fontStyle=5;overflow=hidden;html=1;whiteSpace=wrap;" value="key" vertex="1">
+        <mxCell id="8X1Fv_FRC-SwOijZUOr4-32" parent="8X1Fv_FRC-SwOijZUOr4-30" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;fontStyle=5;overflow=hidden;html=1;whiteSpace=wrap;" value="createdAt" vertex="1">
           <mxGeometry height="30" width="120" x="60" as="geometry">
             <mxRectangle height="30" width="120" as="alternateBounds" />
           </mxGeometry>
+        </mxCell>
+        <mxCell id="8X1Fv_FRC-SwOijZUOr4-18" edge="1" parent="1" source="8X1Fv_FRC-SwOijZUOr4-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="8X1Fv_FRC-SwOijZUOr4-13" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="8X1Fv_FRC-SwOijZUOr4-1" parent="1" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#8C4FFF;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.application_load_balancer;" value="" vertex="1">
+          <mxGeometry height="78" width="78" x="40" y="1190" as="geometry" />
+        </mxCell>
+        <mxCell id="8X1Fv_FRC-SwOijZUOr4-2" parent="1" style="dashed=0;outlineConnect=0;html=1;align=center;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;shape=mxgraph.webicons.mongodb;gradientColor=#DFDEDE" value="" vertex="1">
+          <mxGeometry height="102.4" width="102.4" x="690" y="1207.6000000000001" as="geometry" />
+        </mxCell>
+        <mxCell id="8X1Fv_FRC-SwOijZUOr4-3" parent="1" style="image;sketch=0;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/mscae/Cache_Redis_Product.svg;" value="" vertex="1">
+          <mxGeometry height="50.4" width="60" x="480" y="1320" as="geometry" />
+        </mxCell>
+        <mxCell id="8X1Fv_FRC-SwOijZUOr4-22" edge="1" parent="1" source="8X1Fv_FRC-SwOijZUOr4-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="8X1Fv_FRC-SwOijZUOr4-1" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="8X1Fv_FRC-SwOijZUOr4-4" parent="1" style="sketch=0;aspect=fixed;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;align=center;fillColor=#00188D;shape=mxgraph.mscae.enterprise.workstation_client" value="" vertex="1">
+          <mxGeometry height="65" width="65" x="-90" y="1196.5" as="geometry" />
+        </mxCell>
+        <mxCell id="8X1Fv_FRC-SwOijZUOr4-7" parent="1" style="shape=waypoint;sketch=0;size=6;pointerEvents=1;points=[];fillColor=#00188D;resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;verticalAlign=top;strokeColor=none;shadow=0;dashed=0;" value="" vertex="1">
+          <mxGeometry height="20" width="20" x="130" y="1230" as="geometry" />
+        </mxCell>
+        <mxCell id="8X1Fv_FRC-SwOijZUOr4-17" edge="1" parent="1" source="8X1Fv_FRC-SwOijZUOr4-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="8X1Fv_FRC-SwOijZUOr4-15" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="260" y="1060" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="8X1Fv_FRC-SwOijZUOr4-25" edge="1" parent="1" source="8X1Fv_FRC-SwOijZUOr4-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="8X1Fv_FRC-SwOijZUOr4-3" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="260" y="1340" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="8X1Fv_FRC-SwOijZUOr4-27" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="450" y="1238" />
+              <mxPoint x="450" y="1260" />
+              <mxPoint x="690" y="1260" />
+            </Array>
+            <mxPoint x="299.3557727272723" y="1238.24" as="sourcePoint" />
+            <mxPoint x="690" y="1268" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="8X1Fv_FRC-SwOijZUOr4-13" parent="1" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#ED7100;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.ecs_service;" value="url-shortening-service" vertex="1">
+          <mxGeometry height="98" width="79.63" x="220" y="1180" as="geometry" />
+        </mxCell>
+        <mxCell id="8X1Fv_FRC-SwOijZUOr4-23" edge="1" parent="1" source="8X1Fv_FRC-SwOijZUOr4-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="8X1Fv_FRC-SwOijZUOr4-2" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="8X1Fv_FRC-SwOijZUOr4-24" edge="1" parent="1" source="8X1Fv_FRC-SwOijZUOr4-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="8X1Fv_FRC-SwOijZUOr4-3" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="8X1Fv_FRC-SwOijZUOr4-14" parent="1" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#ED7100;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.ecs_service;" value="url-generation-service" vertex="1">
+          <mxGeometry height="100" width="81.25" x="530" y="1008.4" as="geometry" />
+        </mxCell>
+        <mxCell id="8X1Fv_FRC-SwOijZUOr4-16" edge="1" parent="1" source="8X1Fv_FRC-SwOijZUOr4-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="8X1Fv_FRC-SwOijZUOr4-14" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="8X1Fv_FRC-SwOijZUOr4-15" parent="1" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#8C4FFF;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.application_load_balancer;" value="" vertex="1">
+          <mxGeometry height="78" width="78" x="360" y="1019.4" as="geometry" />
+        </mxCell>
+        <mxCell id="8X1Fv_FRC-SwOijZUOr4-33" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;whiteSpace=wrap;" value="deletedKeys" vertex="1">
+          <mxGeometry height="90" width="180" x="830" y="545" as="geometry" />
+        </mxCell>
+        <mxCell id="8X1Fv_FRC-SwOijZUOr4-34" parent="8X1Fv_FRC-SwOijZUOr4-33" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;html=1;" value="" vertex="1">
+          <mxGeometry height="30" width="180" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="8X1Fv_FRC-SwOijZUOr4-35" parent="8X1Fv_FRC-SwOijZUOr4-34" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;fontStyle=1;overflow=hidden;html=1;whiteSpace=wrap;" value="PK" vertex="1">
+          <mxGeometry height="30" width="60" as="geometry">
+            <mxRectangle height="30" width="60" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="8X1Fv_FRC-SwOijZUOr4-36" parent="8X1Fv_FRC-SwOijZUOr4-34" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;fontStyle=5;overflow=hidden;html=1;whiteSpace=wrap;" value="key" vertex="1">
+          <mxGeometry height="30" width="120" x="60" as="geometry">
+            <mxRectangle height="30" width="120" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="8X1Fv_FRC-SwOijZUOr4-37" parent="8X1Fv_FRC-SwOijZUOr4-33" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;html=1;" value="" vertex="1">
+          <mxGeometry height="30" width="180" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="8X1Fv_FRC-SwOijZUOr4-38" parent="8X1Fv_FRC-SwOijZUOr4-37" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;fontStyle=1;overflow=hidden;html=1;whiteSpace=wrap;" value="" vertex="1">
+          <mxGeometry height="30" width="60" as="geometry">
+            <mxRectangle height="30" width="60" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="8X1Fv_FRC-SwOijZUOr4-39" parent="8X1Fv_FRC-SwOijZUOr4-37" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;fontStyle=5;overflow=hidden;html=1;whiteSpace=wrap;" value="deletedAt" vertex="1">
+          <mxGeometry height="30" width="120" x="60" as="geometry">
+            <mxRectangle height="30" width="120" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="8X1Fv_FRC-SwOijZUOr4-40" parent="1" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;Create short url workflow (high level):&lt;/h1&gt;&lt;div&gt;1) Client sends request to ALB (will be under specific domain)&lt;/div&gt;&lt;div&gt;2) public ALB redirects request to one of the url-shorteninig-service instances&lt;/div&gt;&lt;div&gt;3)&amp;nbsp;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;url-shorteninig-service&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&amp;nbsp;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;sends gRPC request to url-generation-service ALB&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;4)&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;url-generation-service ALB delegates request to one of the&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;url-generation-service instances&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;5)&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;url-generation-service&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&amp;nbsp;checks redis if it has url&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;a) if redis list is NOT empty, then url is returned to&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;url-shorteninig-service&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;b) if redis lit IS empty, then&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;url-generation-service&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&amp;nbsp;refills redis list, then returns one url, it uses distributed locking mechanism for redis&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;6) offtop:&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;url-generation-service wil pre-generated N number of urls on first startup, and&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&amp;nbsp;will keep M number of urls in redis, it reads these urls&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; from keys mongo&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;document, and moves these urls to deletedKeys mongo document&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;7)&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;url-shorteninig-service gets short url, and creates a json document in shortenedUrls&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;8) returns response to client&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;&lt;br&gt;&lt;/h1&gt;&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;Redirect to original url (high level):&lt;/h1&gt;&lt;/div&gt;&lt;div&gt;1) Client sends a request using shortened url&lt;/div&gt;&lt;div&gt;2)&amp;nbsp;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;url-shorteninig-service checks redis if url cached&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;a) if it is NOT cached in redis, then fetch data from mongodb and cache it&lt;br&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;b) if it is cached, do nothing&lt;br&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;3) update analytics document related to shortened url&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;4) return response with redirect code&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;offtop: redis will be configured to use LFU (least frequently used) cache eviction policy with 20 GB of max data&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="640" width="780" x="885" y="770" as="geometry" />
+        </mxCell>
+        <mxCell id="8X1Fv_FRC-SwOijZUOr4-41" parent="1" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;What can be improved?&lt;/span&gt;&lt;/h1&gt;&lt;div&gt;1) Currently we have very basic username&amp;amp;password authentication, it can be more secure&lt;/div&gt;&lt;div&gt;2) MongoDB and Redis is not secured by authentication&lt;/div&gt;&lt;div&gt;3) We could add put back deleted key to key generation services, so they can be reused by other clients&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;4) Audit check for expired url mappings&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;5) Input data validation (email, password, url, etc)&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;...&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;...&lt;/span&gt;&lt;/div&gt;&lt;div&gt;!!!THIS IS JUST PROTOTYPE, NOT PERFECT VERSION&lt;/div&gt;" vertex="1">
+          <mxGeometry height="140" width="780" x="-60" y="1500" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
